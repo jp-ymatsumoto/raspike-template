@@ -1,5 +1,6 @@
 #include "app.h"
 #include <stdio.h>
+#include "HackSpi.h"
 #include "parameters.h"
 
 void main_task(intptr_t exinf)
@@ -15,6 +16,9 @@ void main_task(intptr_t exinf)
   ev3_motor_config(right_motor, MEDIUM_MOTOR);
   // アームモーターの出力ポートを設定する
   ev3_motor_config(arm_motor, LARGE_MOTOR);
+
+  // HackSpiを初期化する
+  hackspi_init();
 
   // 一定時間待機する
   tslp_tsk(100 * 1000U);
@@ -50,10 +54,8 @@ void run_task(intptr_t exinf)
   }
   else
   {
-    // 左モーターにパワーを設定する（モーターを回転させる）
-    ev3_motor_set_power(left_motor, 40);
-    // 右モーターにパワーを設定する（モーターを回転させる）
-    ev3_motor_set_power(right_motor, 100);
+    // HackSpiを実行する
+    hackspi_run();
   }
 
   // タスクを終了する
